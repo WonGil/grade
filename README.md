@@ -2,7 +2,7 @@
 ![image](https://user-images.githubusercontent.com/16534043/106819942-e0b8ed80-66bd-11eb-9d3e-4fccae46677e.png)
 
 # Table of Contents
-- [서비스 시나리오](#서비스 시나리오)
+- [서비스 시나리오](#서비스-시나리오)
   - 기능적 요구사항(#기능적-요구사항)
   - 비기능적 요구사항(## 비기능적 요구사항)
 - [체크포인트]
