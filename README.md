@@ -39,9 +39,13 @@ https://workflowy.com/s/assessment/qJn45fBdVZn4atl3
 ![image](https://user-images.githubusercontent.com/16534043/106823088-a6524f00-66c3-11eb-936c-96465b835b51.png)
 
 ## EventStorming 결과
-### 완성된 1차 모형
-### 1차 완성본에 대한 기능적/비기능적 요구사항을 커버하는지 검증
-### 헥사고날 아키텍쳐 다이어그램 도출 (Polyglot)
+### 완성된 1차 모형  
+![image](https://user-images.githubusercontent.com/16534043/106823133-bc600f80-66c3-11eb-803e-28d474edebd6.png)
+
+### 1차 완성본에 대한 기능적/비기능적 요구사항을 커버하는지 검증  
+
+
+### 헥사고날 아키텍쳐 다이어그램 도출 (Polyglot)  
 
 # 구현
 ## DDD 의 적용
