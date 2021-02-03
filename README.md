@@ -7,7 +7,7 @@
   - [비기능적 요구사항](#비기능적-요구사항)
 - [체크포인트](#체크포인트)
 - [분석/설계]
-  - [AS-IS 조직](#AS-IS-조직-(Horizontally-Aligned))
+  - [AS-IS 조직](#AS-IS 조직 (Horizontally-Aligned))
   - ## TO-BE 조직 (Vertically-Aligned)
   - ## EventStorming 결과
 - [구현]
