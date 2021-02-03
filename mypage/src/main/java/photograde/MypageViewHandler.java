@@ -72,22 +72,22 @@ public class MypageViewHandler {
             e.printStackTrace();
         }
     }
-//    @StreamListener(KafkaProcessor.INPUT)
-//    public void whenGraded_then_UPDATE_3(@Payload Graded graded) {
-//        try {
-//            if (graded.isMe()) {
-//                // view 객체 조회
-//                Optional<Mypage> mypageOptional = mypageRepository.findById(graded.getId());
-//                if(Mypage Optional.isPresent()) {
-//                      = Optional.get();
-//                    // view 객체에 이벤트의 eventDirectValue 를 set 함
-//                    // view 레파지 토리에 save
-//                    Repository.save();
-//                }
-//            }
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-//    }
-
+    @StreamListener(KafkaProcessor.INPUT)
+    public void whenGraded_then_UPDATE_3(@Payload Graded graded) {
+        try {
+            if (graded.isMe()) {
+                // view 객체 조회
+                List<Mypage> mypageList = mypageRepository.findByGradeId(graded.getGradeId());
+                for (Mypage mypage : mypageList){
+                    // view 객체에 이벤트의 eventDirectValue 를 set 함
+                    mypage.setGradeId(graded.getId());
+                    mypage.setStatus(graded.getStatus());
+                    // view 레파지 토리에 save
+                    mypageRepository.save(mypage);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
