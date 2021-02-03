@@ -32,8 +32,12 @@
 https://workflowy.com/s/assessment/qJn45fBdVZn4atl3
 
 # 분석/설계
-## AS-IS 조직 (Horizontally-Aligned)
-## TO-BE 조직 (Vertically-Aligned)
+## AS-IS 조직 (Horizontally-Aligned)  
+![image](https://user-images.githubusercontent.com/16534043/106823048-95a1d900-66c3-11eb-8ae7-36b9a256b8f7.png)
+
+## TO-BE 조직 (Vertically-Aligned)  
+![image](https://user-images.githubusercontent.com/16534043/106823088-a6524f00-66c3-11eb-936c-96465b835b51.png)
+
 ## EventStorming 결과
 ### 완성된 1차 모형
 ### 1차 완성본에 대한 기능적/비기능적 요구사항을 커버하는지 검증
