@@ -13,7 +13,9 @@ public class PolicyHandler{
     @StreamListener(KafkaProcessor.INPUT)
     public void onStringEventListener(@Payload String eventString){
 
-    }
-
+    }   
+    
+    @Autowired
+    MypageRepository mypageRepository;
 
 }
