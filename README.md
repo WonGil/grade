@@ -399,9 +399,17 @@ public class PolicyHandler{
 # 운영
 ## CI/CD 설정
 - git에서 소스 가져오기
-```git
+```bash
 git clone http://github.com/WonGil/photograde
 ```
+
+- maven으로 이미지 build하기 (모든 항목에 대해서 개별 실행)
+```bash
+cd /photograde
+cd photo
+mvn package
+```
+
 
 ## 오토스케일 아웃
 ## 무정지 재배포 (Readiness Probe)
