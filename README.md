@@ -447,12 +447,17 @@ kubectl expose deploy photo --type="ClusterIP" --port=8080
 - 사용자 요청이 급증하는 경우, 오토 스케일 아웃이 필요하다.
   
 - Photo 시스템에 대해서 오토스케일링이 가능하도록 HPA를 설정한다.
-  - CPU 사용량은 10%를 넘어서면 Replica를 10개까지 늘리도록 한다.
+  - CPU 사용량은 15%를 넘어서면 Replica를 10개까지 늘리도록 한다.
+  - 부하가 제대로 걸리게 하기 위해 photo의 resource를 줄인다.
 ```bash
-kubectl autoscale deploy photo --min=1 --max=10 --cpu-percent=10
+kubectl autoscale deploy photo --min=1 --max=10 --cpu-percent=15
 ```
 
-- HPA 설정을 확인한다.
+- HPA 설정을 확인한다.  
+  ![image](https://user-images.githubusercontent.com/16534043/106852246-17612900-66fb-11eb-900d-926ca88f1a42.png)
+
+  - 상세 설정 확인  
+    ![image](https://user-images.githubusercontent.com/16534043/106852279-26e07200-66fb-11eb-8105-5819fd100606.png)
 
 - siege를 활용하여 부하를 걸어준다. (같은 쿠버 환경에서 실행)
 ```bash
@@ -460,12 +465,12 @@ kubectl exec -it (siege POD 이름) -- /bin/bash
 siege -c100 -t30S -r100 -v --content-type "application/json" 'http://photo:8080/photos POST {"photoNm": "myphoto1"}'
 ```
 
-- 오토 스케일이 되지 않았기에, Availability가 낮음을 알 수 있다.
+- 오토 스케일이 되지 않았기에, Availability가 낮음을 알 수 있다.  
 
-- 이 상태에서 해당 pod를 모니링하면 오토 스케일 아웃이 되었음을 알 수 있다.
+- 이 상태에서 해당 pod를 모니링하면 오토 스케일 아웃이 되었음을 알 수 있다.  
 
 - 다시 siege를 이용해 부하를 걸어주면, Availability가 높아졌음을 알 수 있다.
-
+  
   
 ## 무정지 재배포 (Readiness Probe)
 - 무정지 재배포가 100% 되는 것을 확인하기 위해 Autoscaler나 CB는 제거한다.
