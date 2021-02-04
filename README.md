@@ -477,25 +477,30 @@ siege -c100 -t30S -r100 -v --content-type "application/json" 'http://photo:8080/
   
 ## 무정지 재배포 (Readiness Probe)
 - 무정지 재배포가 100% 되는 것을 확인하기 위해 Autoscaler나 CB는 제거한다.
-
+  
 - siege로 배포작업 직전에 워크로드를 모니터링을 실행한다.
 ```bash
 kubectl exec -it (siege POD 이름) -- /bin/bash
-siege -c10 -t30S -r10 -v --content-type "application/json" 'http://photo:8080/photos POST {"photoNm": "myphoto1"}'
+siege -c10 -t30S -v --content-type "application/json" 'http://photo:8080/photos POST {"photoNm": "myphoto1"}'
 ```
-- 우선, Readiness를 제거한 상태에서 재배포를 진행한다.
+- 우선, Readiness를 제거한 상태에서 재배포를 진행한다.  
+  ![image](https://user-images.githubusercontent.com/16534043/106854220-44fba180-66fe-11eb-9b91-f86c2de7e4a2.png)
 
-- 아래와 같이, 재배포 중에 준비가 안된 pod로 패킷을 전달하여 Availability가 낮음을 알 수 있다.
+- 아래와 같이, 재배포 중에 준비가 안된 pod로 패킷을 전달하여 Availability가 낮음을 알 수 있다.  
+  ![image](https://user-images.githubusercontent.com/16534043/106854238-4fb63680-66fe-11eb-8bde-cf7fa17ebd03.png)
 
-- 다시, Readiness가 포함된 상태에서 재배포를 진행하고, 모니터링을 한다.
+- 다시, Readiness가 포함된 상태에서 재배포를 진행하고, 모니터링을 한다.  
+  ![image](https://user-images.githubusercontent.com/16534043/106854289-6197d980-66fe-11eb-9abb-65517e970a3a.png)
 
-- 모니터링 결과, Readiness Probe가 동작하여 Availability가 높아졌음을 알 수 있다.
+- 모니터링 결과, Readiness Probe가 동작하여 Availability가 높아졌음을 알 수 있다.  
+  ![image](https://user-images.githubusercontent.com/16534043/106854492-b8051800-66fe-11eb-87dc-612314c91c12.png)
 
-
-
+- 새롭게 배포된 항목이 준비가 다 되면, 기존에 실행중이던 pod를 삭제하는 것을 알 수 있다.  
+  ![image](https://user-images.githubusercontent.com/16534043/106854418-973cc280-66fe-11eb-92e6-4827e7dddd4b.png)
 
 
 ## Self-healing (Liveness Probe)
+
 ## ConfigMap 적용
 ## 동기식 호출 / 서킷 브레이킹 / 장애격리
 ## 모니터링, 앨럿팅
