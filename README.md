@@ -553,7 +553,8 @@ kubectl create configmap deliveryword --from-literal=word=Great
 kubectl create namespace istio-test-ns
 kubectl label namespace istio-test-ns istio-injection=enabled
 ```
-- 해당 namespace에 서비스를 재배포하고 확인한다.
+- 해당 namespace에 서비스를 재배포하고 istio로 인해 container가 2개 생성됨을 확인한다.
+  ![image](https://user-images.githubusercontent.com/16534043/106859531-88f2a480-6706-11eb-93cb-efbf51f0f4d1.png)
 
 - 서킷 브레이커 활용을 위해 Destination Rule을 설정한다.
 ```bash
@@ -573,10 +574,14 @@ kubectl apply -f - <<EOF
 EOF
 ```
 - DestinationRule이 설정되었음을 확인한다.
+  ![image](https://user-images.githubusercontent.com/16534043/106859619-a58edc80-6706-11eb-9a92-df71e613d391.png)
 
-- siege를 생성하여 유저가 1명일 때 실행하여 availability를 확인한다.
+- siege를 생성하여 유저가 1명일 때 실행하여 availability가 높음을 확인한다.  
+  ![image](https://user-images.githubusercontent.com/16534043/106860307-8a709c80-6707-11eb-870a-2968875f63a1.png)
 
-- 이번엔 유저가 3명일 때 실행하여, availability를 확인하고, 대기 사용자가 늘었기에, 서킷 브레이커가 발동하여 요청을 끊었음을 확인할 수 있다.
+- siege에서 유저가 3명일 때 실행하여, availability를 확인한다.
+  - 대기 사용자가 늘었기에, 서킷 브레이커가 발동하여 요청을 끊었음을 확인할 수 있다.  
+  ![image](https://user-images.githubusercontent.com/16534043/106860498-d28fbf00-6707-11eb-9e55-a2acdeb248b6.png)
 
 
 
