@@ -15,10 +15,19 @@ public class PolicyHandler{
 
     }
 
+    @Autowired
+    GradeRepository gradeRepository;
+
     @StreamListener(KafkaProcessor.INPUT)
     public void wheneverPhotoRegistered_(@Payload PhotoRegistered photoRegistered){
 
         if(photoRegistered.isMe()){
+            Optional<Grade> gradeOptional = gradeRepository.findById(photoRegistered.getGradeId());
+            Grade grade = gradeOptional.get();
+            grade.setStatus(photoRegistered.getStatus());
+            grade.setStatus("Photo Registered");
+
+            gradeRepository.save(grade);
             System.out.println("##### listener  : " + photoRegistered.toJson());
         }
     }
