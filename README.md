@@ -53,7 +53,8 @@ https://workflowy.com/s/assessment/qJn45fBdVZn4atl3
 - 등급이 삭제되면 포인트도 삭제된다.(5, 6, 7 → OK)
 - 회원이 사진의 등급 정보를 중간중간 조회한다. (8 → OK)
 
-### 헥사고날 아키텍쳐 다이어그램 도출 (Polyglot)  
+### 헥사고날 아키텍쳐 다이어그램 도출 (Polyglot)   
+![image](https://user-images.githubusercontent.com/16534043/106826631-a43fbe80-66ca-11eb-84e6-edc1f90ad50f.png)
 
 # 구현
 ## DDD 의 적용
