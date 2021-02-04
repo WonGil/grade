@@ -465,12 +465,15 @@ kubectl exec -it (siege POD 이름) -- /bin/bash
 siege -c100 -t30S -r100 -v --content-type "application/json" 'http://photo:8080/photos POST {"photoNm": "myphoto1"}'
 ```
 
-- 오토 스케일이 되지 않았기에, Availability가 낮음을 알 수 있다.  
+- 현재 pod 개수로는 처리할 수 없었기에, 소켓이 끊기고 Availability가 낮음을 알 수 있다.  
+  ![image](https://user-images.githubusercontent.com/16534043/106853150-960a9600-66fc-11eb-9e45-275bf8248617.png)
 
 - 이 상태에서 해당 pod를 모니링하면 오토 스케일 아웃이 되었음을 알 수 있다.  
-
-- 다시 siege를 이용해 부하를 걸어주면, Availability가 높아졌음을 알 수 있다.
+  ![image](https://user-images.githubusercontent.com/16534043/106853184-a589df00-66fc-11eb-8b1d-cd66415a44eb.png)
   
+- 다시 siege를 이용해 부하를 걸어주면, Availability가 높아졌음을 알 수 있다.
+  ![image](https://user-images.githubusercontent.com/16534043/106853467-16c99200-66fd-11eb-872e-1e97097c2c2b.png)
+
   
 ## 무정지 재배포 (Readiness Probe)
 - 무정지 재배포가 100% 되는 것을 확인하기 위해 Autoscaler나 CB는 제거한다.
