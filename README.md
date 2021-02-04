@@ -260,9 +260,38 @@ server:
 
 ## 폴리그랏 퍼시스턴스
 - point 서비스의 경우, 단순히 포인트 정보만 유지하면 되기에, NoSQL인 H2 데이터베이스보다 H2SQL 사용이 더 유리하다.
-- 따라서, 아래와 같이 point 서비스는 HSQL을 사용해 구현했고, 이를 통해 마이크로 
+- 따라서, 아래와 같이 point 서비스는 HSQL을 사용해 구현했고, 이를 통해 마이크로 서비스 간 서로 다른 종류의 데이터베이스를 사용해도 문제 없기에 폴리그랏 퍼시스턴스로 구현되었음을 확인할 수 있다.
+- point 서비스의 pom.xml  
+  ![image](https://user-images.githubusercontent.com/16534043/106832906-e6223200-66d5-11eb-95ce-7d653fb8ba94.png)
+
 ## 유비쿼터스 랭귀지
+- 실무에서 사용 중인 영어를 유비쿼터스 랭귀지로 지정하여 마이크로 서비스를 구현하였다. 이를 통해 모든 이해관계자들이 의미를 이해하고 사용할 수 있다.
 ## 동기식 호출(Req/Res 방식)과 Fallback 처리
+- 분석/설계 단계에서 "회원이 사진을 삭제하면, 사진의 등급도 즉시 삭제된다." 라는 요구조건을 만족하기 위하여 상호간의 호출은 동기식 호출(Req/Res)로 구현하였다.
+- 호출 프로토콜은 이미 앞서 Rest Repository에 의해 노출되어있는 REST서비스를 FeignClient를 이용하여 호출하도록 한다.
+```java
+
+package photograde.external;
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.util.Date;
+
+@FeignClient(name="grade", url="${api.grade.url}")
+public interface GradeService {
+
+    @RequestMapping(method= RequestMethod.GET, path="/grades")
+    public void gradeCancel(@RequestBody Grade grade);
+
+}
+```
+
+- 사진이 삭제된 직후(@PreRemove), 등급이 삭제되도록 처리
+
+
 ## 비동기식 호출 (Pub/Sub 방식)
 ## CQRS
 
