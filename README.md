@@ -529,11 +529,50 @@ kubectl create configmap deliveryword --from-literal=word=Great
             //point.setStatus("You got Point!");
             point.setStatus("You got Point and your photo: " + System.getenv("STATUS")); 
  ```
-- point 서비스의 deployment.yml 파일에 configmap을 사용하도록 설정한다.
-  ![image](https://user-images.githubusercontent.com/16534043/106856174-732eb080-6701-11eb-87b5-b584c95f6b50.png)
+- point 서비스의 deployment.yml 파일에 configmap을 사용하도록 설정한다.  
+  ![image](https://user-images.githubusercontent.com/16534043/106856284-92c5d900-6701-11eb-8e4d-c6b24ea1a15d.png)
+
+- point 서비스를 재배포하고, Configmap이 설정되었는지 확인한다.
+
+- 서비스 실행 결과 status에 환경변수가 들어갔는지 확인한다.
 
 
 ## 동기식 호출 / 서킷 브레이킹 / 장애격리
-## 모니터링, 앨럿팅
+- isito를 활용하여 서킷 브레이커 동작을 확인한다.
+
+- istio injection이 enabled된 namespace를 생성한다.
+```bash
+kubectl create namespace istio-test-ns
+kubectl label namespace istio-test-ns istio-injection=enabled
+```
+- 해당 namespace에 서비스를 재배포하고 확인한다.
+
+- 서킷 브레이커 활용을 위해 Destination Rule을 설정한다.
+```bash
+kubectl apply -f - <<EOF
+  apiVersion: networking.istio.io/v1alpha3
+  kind: DestinationRule
+  metadata:
+    name: dr-httpbin
+    namespace: istio-test-ns
+  spec:
+    host: gateway
+    trafficPolicy:
+      connectionPool:
+        http:
+          http1MaxPendingRequests: 1
+          maxRequestsPerConnection: 1
+EOF
+```
+- DestinationRule이 설정되었음을 확인한다.
+
+- siege를 생성하여 유저가 1명일 때 실행하여 availability를 확인한다.
+
+- 이번엔 유저가 3명일 때 실행하여, availability를 확인하고, 대기 사용자가 늘었기에, 서킷 브레이커가 발동하여 요청을 끊었음을 확인할 수 있다.
+
+
+
+
+
 
 
