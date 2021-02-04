@@ -60,6 +60,24 @@ https://workflowy.com/s/assessment/qJn45fBdVZn4atl3
 - 서브 도메인과 바운디드 컨텍스트의 분리:  각 팀의 KPI 별로 아래와 같이 관심 구현 스토리를 나눠가짐
 
 # 구현
+
+```
+cd recipe
+mvn spring-boot:run  
+
+cd order
+mvn spring-boot:run
+
+cd delivery
+mvn spring-boot:run 
+
+cd mypage
+mvn spring-boot:run  
+
+cd gateway
+mvn spring-boot:run  
+```
+
 ## DDD 의 적용
 ## Gateway 적용
 ## 폴리그랏 퍼시스턴스
