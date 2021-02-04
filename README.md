@@ -400,7 +400,7 @@ public class PolicyHandler{
 ## CI/CD 설정
 - git에서 소스 가져오기
 ```bash
-git clone http://github.com/WonGil/photograde
+git clone http://github.com/WonGil/photograde.git
 ```
 
 - maven으로 이미지 build하기 (모든 항목에 대해서 개별 실행)
@@ -410,8 +410,52 @@ cd photo
 mvn package
 ```
 
+- Auzre Portal내 환경설정(저장소, 레지스트리 설정 등) 및 설정 (Login 및 토큰 가져오기)
+
+- Dockerlizing, ACR에 Docker Image Push하기  (모든 항목에 대해서 개별 실행)
+```bash
+az acr build --registry skcc04 --image skcc04.azurecr.io/photo:v1 .
+```
+
+- ACR에 정상적으로 Push 되었음을 확인함  
+
+- ACR에서 이미지를 가져와서 Kubernetes에 Deploy하기 (모든 항목에 대해서 개별 실행)
+```bash
+kubectl create deploy photo --image=skcc04.azurecr.io/photo:v1
+```
+
+- Kubernetes deploy 결과 조회  
+
+- Kubernetes 서비스 생성하기  
+
+- Kubernetes 서비스 생성 결과 조회
+
+- 서비스를 위해 Kafka Zookeeper와 Server도 별도로 실행
 
 ## 오토스케일 아웃
+- 사용자 요청이 급증하는 경우, 오토 스케일 아웃이 필요하다.
+  
+- Photo 시스템에 대해서 오토스케일링이 가능하도록 HPA를 설정한다.
+  - CPU 사용량은 10%를 넘어서면 Replica를 10개까지 늘리도록 한다.
+```bash
+kubectl autoscale deploy photo --min=1 --max=10 --cpu-percent=10
+```
+
+- HPA 설정을 확인한다.
+
+- siege를 활용하여 부하를 걸어준다. (같은 쿠버 환경에서 실행)
+```bash
+kubectl exec -it (siege POD 이름) -- /bin/bash
+siege -c100 -t30S -r100 -v --content-type "application/json" 'http://recipe:8080/recipes POST {"recipeNm": "apple_Juice"}'
+```
+
+- 오토 스케일이 되지 않았기에, Availability가 낮음을 알 수 있다.
+
+- 이 상태에서 해당 pod를 모니링하면 오토 스케일 아웃이 되었음을 알 수 있다.
+
+- 다시 siege를 이용해 부하를 걸어주면, Availability가 높아졌음을 알 수 있다.
+
+  
 ## 무정지 재배포 (Readiness Probe)
 ## Self-healing (Liveness Probe)
 ## ConfigMap 적용
