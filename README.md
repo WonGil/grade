@@ -397,9 +397,12 @@ public class PolicyHandler{
    ![image](https://user-images.githubusercontent.com/16534043/106846545-6a81ae80-66f0-11eb-9d2f-bc5268b291f4.png)
 
 # 운영
-
-
 ## CI/CD 설정
+- git에서 소스 가져오기
+```git
+git clone http://github.com/WonGil/photograde
+```
+
 ## 오토스케일 아웃
 ## 무정지 재배포 (Readiness Probe)
 ## Self-healing (Liveness Probe)
