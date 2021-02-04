@@ -21,12 +21,12 @@
 
 ## 비기능적 요구사항
 1. 트랜젝션
-  - 회원이 사진을 삭제하면, 사진의 등급도 즉시 삭제된다. → Sync 호출
+    1. 회원이 사진을 삭제하면, 사진의 등급도 즉시 삭제된다. → Sync 호출
 1. 장애격리
-  - 등급 서비스가 정상 기능이 되지 않더라도 사진을 등록할 수 있다. → Async (Event-Driven), Eventual Consistency
-  - 포인트 서비스가 과중되면, 사용자를 잠시동안 받지 않고 주문을 잠시 후에 하도록 유도한다. → Circuit Breacker, Fallback
+   1. 등급 서비스가 정상 기능이 되지 않더라도 사진을 등록할 수 있다. → Async (Event-Driven), Eventual Consistency
+   1. 포인트 서비스가 과중되면, 사용자를 잠시동안 받지 않고 주문을 잠시 후에 하도록 유도한다. → Circuit Breacker, Fallback
 1. 성능
-  - 회원이 사진의 등급을 사진서비스에서 확인할 수 있어야 한다. → CQRS
+   1. 회원이 사진의 등급을 사진서비스에서 확인할 수 있어야 한다. → CQRS
 
 # 체크포인트
 https://workflowy.com/s/assessment/qJn45fBdVZn4atl3
