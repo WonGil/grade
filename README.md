@@ -535,6 +535,12 @@ kubectl create configmap deliveryword --from-literal=word=Great
 - point 서비스를 재배포하고, Configmap이 설정되었는지 확인한다.
 
 - 서비스 실행 결과 status에 환경변수가 들어갔는지 확인한다.
+  - ConfigMap 없었을 때 (소스 수정 X)
+    ![image](https://user-images.githubusercontent.com/16534043/106858569-38c71280-6705-11eb-80e8-6b45b73a7e65.png)
+
+  - ConfigMap 설정 후 (소스 수정 함)
+    ![image](https://user-images.githubusercontent.com/16534043/106858557-32d13180-6705-11eb-96bf-00da4d997d64.png)
+
 
 
 ## 동기식 호출 / 서킷 브레이킹 / 장애격리
