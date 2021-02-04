@@ -291,6 +291,7 @@ public interface GradeService {
 ```
 
 - 사진이 삭제된 직후(@PreRemove), 등급이 삭제되도록 구현 (photo.java)
+
 ```java
 
     @PreRemove
@@ -314,13 +315,82 @@ public interface GradeService {
 
 ```
 - 동기식 호출에서 호출 시간에 따른 타임 커플링이 발생하여, grade 서비스가 내려간 상태에선, photo에서 사진 삭제를 요청해도, 삭제되지 않음을 확인  
-  - Grade 서비스를 중단시킴 (Ctrl+c)
+  - Grade 서비스를 중단시킴 (Ctrl+c)  
     ![image](https://user-images.githubusercontent.com/16534043/106844553-30aea900-66ec-11eb-81ea-d7ebe2da3179.png)
-  - Photo 서비스에서 Photo Delete를 요청하고, 에러가 난 것을 확인
+    
+  - Photo 서비스에서 Photo Delete를 요청하고, 에러가 난 것을 확인  
     ![image](https://user-images.githubusercontent.com/16534043/106844617-5dfb5700-66ec-11eb-884a-ce7edcd9401c.png)
+    
+  - 다시 Grade 서비스를 실행시키고, photo delete를 실행하여 정상적으로 삭제가 되었음을 확인  
+    ![image](https://user-images.githubusercontent.com/16534043/106844991-47a1cb00-66ed-11eb-9098-63582ce0556f.png)
 
+    
 ## 비동기식 호출 (Pub/Sub 방식)
+- photo.java 내에 아래와 같이 Kafka를 활용한 비동기식 호출 중 Pub 구현
+```java
+public class Photo {
+
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private Long id;
+    private String photoNm;
+    private String camera;
+    private Long gradeId;
+    private String user;
+
+    @PrePersist
+    public void onPrePersist(){
+        PhotoRegistered photoRegistered = new PhotoRegistered();
+        BeanUtils.copyProperties(this, photoRegistered);
+        photoRegistered.publishAfterCommit();
+
+
+    }
+```
+
+- photo.java가 pub한 event를 sub해 오는 코드를 grade.java에 구현
+```java
+public class PolicyHandler{
+    @StreamListener(KafkaProcessor.INPUT)
+    public void onStringEventListener(@Payload String eventString){
+
+    }
+
+    @Autowired
+    GradeRepository gradeRepository;
+
+    @StreamListener(KafkaProcessor.INPUT)
+    public void wheneverPhotoRegistered_Grade(@Payload PhotoRegistered photoRegistered){
+
+        if(photoRegistered.isMe()){
+            //java.util.Optional<Grade> gradeOptional = gradeRepository.findById(photoRegistered.getGradeId());
+            //Grade grade = gradeOptional.get();
+            Grade grade= new Grade();
+            grade.setGradeId(photoRegistered.getId());
+            grade.setStatus("Grade Registered");
+
+            gradeRepository.save(grade);
+            System.out.println("##### listener  : " + photoRegistered.toJson());
+
+        }
+    }
+
+}
+```
+
+- 비동기식 호출은 다른 서비스가 비정상적이어도, PUB하는 측에선 아무 문제없이 EVENT를 발행할 수 있는 것을 확인
+  - photo 서비스와 grade 서비스가 정상 동작 중일 때, photo 서비스 실행시 이상 없음을 확인  
+    ![image](https://user-images.githubusercontent.com/16534043/106845427-41601e80-66ee-11eb-9978-045a56f9fd1d.png)
+    
+  - grade 서비스를 중단시킴 (Ctrl+c)  
+    ![image](https://user-images.githubusercontent.com/16534043/106845461-50df6780-66ee-11eb-9a7a-21e30510c906.png)
+
+  - 아래와 같이 grade 서비스가 중단되었음에도, photo 서비스 실행시 이상 없음을 확인  
+    ![image](https://user-images.githubusercontent.com/16534043/106845575-8d12c800-66ee-11eb-9d42-ee4053864877.png)
+
 ## CQRS
+
+
 
 # 운영
 ## CI/CD 설정
