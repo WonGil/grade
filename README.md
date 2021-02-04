@@ -433,12 +433,15 @@ kubectl create deploy photo --image=skcc04.azurecr.io/photo:v1
 kubectl expose deploy photo --type="ClusterIP" --port=8080
 ```
 
-- Kubernetes 서비스 생성 결과 조회
+- Kubernetes 서비스 생성 결과 조회  
   ![image](https://user-images.githubusercontent.com/16534043/106849682-80926d80-66f6-11eb-8daa-fb71ba2b5729.png)
 
-- 서비스를 위해 Kafka Zookeeper와 Server도 별도로 실행
+- 서비스를 위해 Kafka Zookeeper와 Server도 별도로 실행  
+  ![image](https://user-images.githubusercontent.com/16534043/106850445-df0c1b80-66f7-11eb-85de-701862d3aee1.png)
 
-- 서비스 정상 동작 확인
+  
+- 서비스 정상 동작 확인  
+  ![image](https://user-images.githubusercontent.com/16534043/106850404-cdc30f00-66f7-11eb-8d0b-d3a17b8c7555.png)
 
 ## 오토스케일 아웃
 - 사용자 요청이 급증하는 경우, 오토 스케일 아웃이 필요하다.
