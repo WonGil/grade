@@ -508,8 +508,29 @@ siege -c10 -t30S -v --content-type "application/json" 'http://photo:8080/photos 
   ![image](https://user-images.githubusercontent.com/16534043/106855184-e20b0a00-66ff-11eb-940d-bd5b9e1bb76d.png)
 
 - Liveness Probe가 발동되어 재시작이 일어났음을 알 수 있다.  
-  
+  ![image](https://user-images.githubusercontent.com/16534043/106855600-868d4c00-6700-11eb-9f58-cee2e9176c54.png)
+
 ## ConfigMap 적용
+- ConfigMap을 활용하여, 환경변수를 서비스에 이식한다.
+
+- ConfigMap을 생성한다.
+```bash
+kubectl create configmap deliveryword --from-literal=word=Great
+```
+
+- Configmap 생성 결과를 확인한다.  
+  ![image](https://user-images.githubusercontent.com/16534043/106855759-d1a75f00-6700-11eb-9d3e-9232679ba17e.png)
+
+- Point 서비스의 Status 부분에 아래와 같이 전달받은 환경변수를 사용해 출력하도록 변경한다.
+ ```java
+        if(graded.isMe()){
+            Point point= new Point();
+            point.setGradeId(graded.getId());
+            //point.setStatus("You got Point!");
+            point.setStatus("You got Point and your photo: " + System.getenv("STATUS")); 
+ ```
+
+
 ## 동기식 호출 / 서킷 브레이킹 / 장애격리
 ## 모니터링, 앨럿팅
 
