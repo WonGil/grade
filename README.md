@@ -266,6 +266,7 @@ server:
 
 ## 유비쿼터스 랭귀지
 - 실무에서 사용 중인 영어를 유비쿼터스 랭귀지로 지정하여 마이크로 서비스를 구현하였다. 이를 통해 모든 이해관계자들이 의미를 이해하고 사용할 수 있다.
+
 ## 동기식 호출(Req/Res 방식)과 Fallback 처리
 - 분석/설계 단계에서 "회원이 사진을 삭제하면, 사진의 등급도 즉시 삭제된다." 라는 요구조건을 만족하기 위하여 상호간의 호출은 동기식 호출(Req/Res)로 구현하였다.
 - 호출 프로토콜은 이미 앞서 Rest Repository에 의해 노출되어있는 REST서비스를 FeignClient를 이용하여 호출하도록 한다.
@@ -312,8 +313,11 @@ public interface GradeService {
     }
 
 ```
-- 동기식 호출에서 호출 시간에 따른 타임 커플링이 발생하여, grade 서비스가 내려간 상태에선, photo에서 사진 삭제를 요청해도, 삭제되지 않음을 확인
-  - 
+- 동기식 호출에서 호출 시간에 따른 타임 커플링이 발생하여, grade 서비스가 내려간 상태에선, photo에서 사진 삭제를 요청해도, 삭제되지 않음을 확인  
+  - Grade 서비스를 중단시킴 (Ctrl+c)
+    ![image](https://user-images.githubusercontent.com/16534043/106844553-30aea900-66ec-11eb-81ea-d7ebe2da3179.png)
+  - Photo 서비스에서 Photo Delete를 요청하고, 에러가 난 것을 확인
+    ![image](https://user-images.githubusercontent.com/16534043/106844617-5dfb5700-66ec-11eb-884a-ce7edcd9401c.png)
 
 ## 비동기식 호출 (Pub/Sub 방식)
 ## CQRS
