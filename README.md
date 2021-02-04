@@ -180,7 +180,7 @@ public class Photo {
 
 ## Gateway 적용
 - API Gateway를 톻아여 마이크로 서비스들의 진입점을 통일하였다.  
-```java
+```yaml
 server:
   port: 8088
 
