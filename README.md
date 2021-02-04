@@ -170,6 +170,11 @@ public class Photo {
 }
 
 ```
+- 적용 후, 서비스들을 실행하고, REST API 테스트를 통하여 정상 동작을 확인할 수 있다.
+  - 사진 등록 (photo)  
+    ![image](https://user-images.githubusercontent.com/16534043/106830741-04862e80-66d2-11eb-81d0-c426d8d232ab.png)
+  - 결과 확인 (photo)  
+    ![image](https://user-images.githubusercontent.com/16534043/106830782-15cf3b00-66d2-11eb-8d3a-e314f382e759.png)
 
 ## Gateway 적용
 ## 폴리그랏 퍼시스턴스
