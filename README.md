@@ -171,12 +171,93 @@ public class Photo {
 
 ```
 - 적용 후, 서비스들을 실행하고, REST API 테스트를 통하여 정상 동작을 확인할 수 있다.
+
   - 사진 등록 (photo)  
     ![image](https://user-images.githubusercontent.com/16534043/106830741-04862e80-66d2-11eb-81d0-c426d8d232ab.png)
+    
   - 결과 확인 (photo)  
     ![image](https://user-images.githubusercontent.com/16534043/106830782-15cf3b00-66d2-11eb-8d3a-e314f382e759.png)
 
 ## Gateway 적용
+- API Gateway를 톻아여 마이크로 서비스들의 진입점을 통일하였다.  
+```java
+server:
+  port: 8088
+
+---
+
+spring:
+  profiles: default
+  cloud:
+    gateway:
+      routes:
+        - id: photo
+          uri: http://localhost:8081
+          predicates:
+            - Path=/photos/** 
+        - id: grade
+          uri: http://localhost:8082
+          predicates:
+            - Path=/grades/** 
+        - id: point
+          uri: http://localhost:8083
+          predicates:
+            - Path=/points/**,/pointCancels/**
+        - id: mypage
+          uri: http://localhost:8084
+          predicates:
+            - Path= /mypages/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+
+---
+
+spring:
+  profiles: docker
+  cloud:
+    gateway:
+      routes:
+        - id: photo
+          uri: http://photo:8080
+          predicates:
+            - Path=/photos/** 
+        - id: grade
+          uri: http://grade:8080
+          predicates:
+            - Path=/grades/** 
+        - id: point
+          uri: http://point:8080
+          predicates:
+            - Path=/points/**,/pointCancels/**
+        - id: mypage
+          uri: http://mypage:8080
+          predicates:
+            - Path= /mypages/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+server:
+  port: 8080
+
+```
+
 ## 폴리그랏 퍼시스턴스
 ## 유비쿼터스 랭귀지
 ## 동기식 호출(Req/Res 방식)과 Fallback 처리
