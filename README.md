@@ -54,7 +54,10 @@ https://workflowy.com/s/assessment/qJn45fBdVZn4atl3
 - 회원이 사진의 등급 정보를 중간중간 조회한다. (8 → OK)
 
 ### 헥사고날 아키텍쳐 다이어그램 도출 (Polyglot)   
-![image](https://user-images.githubusercontent.com/16534043/106826631-a43fbe80-66ca-11eb-84e6-edc1f90ad50f.png)
+![image](https://user-images.githubusercontent.com/16534043/106826803-fed91a80-66ca-11eb-963b-4787bc39c271.png)
+- Inbound adaptor와 Outbound adaptor를 구분함
+- 호출관계에서 PubSub 과 Req/Resp 를 구분함
+- 서브 도메인과 바운디드 컨텍스트의 분리:  각 팀의 KPI 별로 아래와 같이 관심 구현 스토리를 나눠가짐
 
 # 구현
 ## DDD 의 적용
