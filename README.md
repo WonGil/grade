@@ -43,7 +43,15 @@ https://workflowy.com/s/assessment/qJn45fBdVZn4atl3
 ![image](https://user-images.githubusercontent.com/16534043/106823133-bc600f80-66c3-11eb-803e-28d474edebd6.png)
 
 ### 1차 완성본에 대한 기능적/비기능적 요구사항을 커버하는지 검증  
-
+![image](https://user-images.githubusercontent.com/16534043/106825604-95f0a300-66c8-11eb-8c98-c0e7c89d09bb.png)
+- 회원이 사진을 선택하여 등록한다. (1 → OK)
+- 사진이 등록되면, 사진을 분석하여 등급(grade)를 매긴다. (1, 2 → OK)
+- 사진의 등급이 매겨지면, 회원에게 포인트를 부여한다. (1, 2, 3 → OK)
+- 포인트 정보는 회원 정보에 업데이트 된다. (4 → OK)
+- 회원이 사진을 삭제할 수 있다. (5 → OK)
+- 회원이 사진을 삭제하면 등급도 삭제된다. (5, 6 → OK)
+- 등급이 삭제되면 포인트도 삭제된다.(5, 6, 7 → OK)
+- 회원이 사진의 등급 정보를 중간중간 조회한다. (8 → OK)
 
 ### 헥사고날 아키텍쳐 다이어그램 도출 (Polyglot)  
 
