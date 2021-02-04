@@ -573,7 +573,7 @@ kubectl apply -f - <<EOF
           maxRequestsPerConnection: 1
 EOF
 ```
-- DestinationRule이 설정되었음을 확인한다.
+- DestinationRule이 설정되었음을 확인한다.  
   ![image](https://user-images.githubusercontent.com/16534043/106859619-a58edc80-6706-11eb-9a92-df71e613d391.png)
 
 - siege를 생성하여 유저가 1명일 때 실행하여 availability가 높음을 확인한다.  
