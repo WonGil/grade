@@ -529,6 +529,8 @@ kubectl create configmap deliveryword --from-literal=word=Great
             //point.setStatus("You got Point!");
             point.setStatus("You got Point and your photo: " + System.getenv("STATUS")); 
  ```
+- point 서비스의 deployment.yml 파일에 configmap을 사용하도록 설정한다.
+  ![image](https://user-images.githubusercontent.com/16534043/106856174-732eb080-6701-11eb-87b5-b584c95f6b50.png)
 
 
 ## 동기식 호출 / 서킷 브레이킹 / 장애격리
