@@ -60,15 +60,15 @@ https://workflowy.com/s/assessment/qJn45fBdVZn4atl3
 - 서브 도메인과 바운디드 컨텍스트의 분리:  각 팀의 KPI 별로 아래와 같이 관심 구현 스토리를 나눠가짐
 
 # 구현
-
+분석/설계 단계에서 도출된 헥사고날 아키텍처에 따라, 각 BC별로 대변되는 마이크로 서비스들을 스프링부트로 구현하였다. 구현한 각 서비스를 로컬에서 실행하는 방법은 아래와 같다 (각자의 포트넘버는 8081 ~ 8084, 8088 이다)
 ```
-cd recipe
+cd photo
 mvn spring-boot:run  
 
-cd order
+cd grade
 mvn spring-boot:run
 
-cd delivery
+cd point
 mvn spring-boot:run 
 
 cd mypage
@@ -79,6 +79,98 @@ mvn spring-boot:run
 ```
 
 ## DDD 의 적용
+msaez.io 를 통해 구현한 Aggregate 단위로 Entity 를 선언 후, 구현을 진행하였다.
+Entity Pattern 과 Repository Pattern 을 적용하기 위해 Spring Data REST 의 RestRepository 를 적용하였다.
+유비쿼터스 랭귀지를 영문으로 사용하였기에, 큰 문제 없이 실행이 되었다.
+```java
+package photograde;
+
+import javax.persistence.*;
+import org.springframework.beans.BeanUtils;
+import java.util.List;
+
+@Entity
+@Table(name="Photo_table")
+public class Photo {
+
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private Long id;
+    private String photoNm;
+    private String user;
+    private String camera;
+    private String gradeId;
+
+    @PrePersist
+    public void onPrePersist(){
+        PhotoRegistered photoRegistered = new PhotoRegistered();
+        BeanUtils.copyProperties(this, photoRegistered);
+        photoRegistered.publishAfterCommit();
+
+
+    }
+
+    @PreRemove
+    public void onPreRemove(){
+        PhotoDeleted photoDeleted = new PhotoDeleted();
+        BeanUtils.copyProperties(this, photoDeleted);
+        photoDeleted.publishAfterCommit();
+
+        //Following code causes dependency to external APIs
+        // it is NOT A GOOD PRACTICE. instead, Event-Policy mapping is recommended.
+
+        photograde.external.Grade grade = new photograde.external.Grade();
+        // mappings goes here
+        PhotoApplication.applicationContext.getBean(photograde.external.GradeService.class)
+                .gradeCancel(grade);
+
+
+    }
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+    public String getPhotoNm() {
+        return photoNm;
+    }
+
+    public void setPhotoNm(String photoNm) {
+        this.photoNm = photoNm;
+    }
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+    public String getCamera() {
+        return camera;
+    }
+
+    public void setCamera(String camera) {
+        this.camera = camera;
+    }
+    public String getGradeId() {
+        return gradeId;
+    }
+
+    public void setGradeId(String gradeId) {
+        this.gradeId = gradeId;
+    }
+
+
+
+
+}
+
+```
+
 ## Gateway 적용
 ## 폴리그랏 퍼시스턴스
 ## 유비쿼터스 랭귀지
