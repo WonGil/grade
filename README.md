@@ -418,6 +418,7 @@ az acr build --registry skcc04 --image skcc04.azurecr.io/photo:v1 .
 ```
 
 - ACR에 정상적으로 Push 되었음을 확인함  
+  ![image](https://user-images.githubusercontent.com/16534043/106849362-e92d1a80-66f5-11eb-8031-81cdda2fdd1b.png)
 
 - ACR에서 이미지를 가져와서 Kubernetes에 Deploy하기 (모든 항목에 대해서 개별 실행)
 ```bash
@@ -446,7 +447,7 @@ kubectl autoscale deploy photo --min=1 --max=10 --cpu-percent=10
 - siege를 활용하여 부하를 걸어준다. (같은 쿠버 환경에서 실행)
 ```bash
 kubectl exec -it (siege POD 이름) -- /bin/bash
-siege -c100 -t30S -r100 -v --content-type "application/json" 'http://recipe:8080/recipes POST {"recipeNm": "apple_Juice"}'
+siege -c100 -t30S -r100 -v --content-type "application/json" 'http://photo:8080/photos POST {"photoNm": "myphoto1"}'
 ```
 
 - 오토 스케일이 되지 않았기에, Availability가 낮음을 알 수 있다.
@@ -457,6 +458,25 @@ siege -c100 -t30S -r100 -v --content-type "application/json" 'http://recipe:8080
 
   
 ## 무정지 재배포 (Readiness Probe)
+- 무정지 재배포가 100% 되는 것을 확인하기 위해 Autoscaler나 CB는 제거한다.
+
+- siege로 배포작업 직전에 워크로드를 모니터링을 실행한다.
+```bash
+kubectl exec -it (siege POD 이름) -- /bin/bash
+siege -c10 -t30S -r10 -v --content-type "application/json" 'http://photo:8080/photos POST {"photoNm": "myphoto1"}'
+```
+- 우선, Readiness를 제거한 상태에서 재배포를 진행한다.
+
+- 아래와 같이, 재배포 중에 준비가 안된 pod로 패킷을 전달하여 Availability가 낮음을 알 수 있다.
+
+- 다시, Readiness가 포함된 상태에서 재배포를 진행하고, 모니터링을 한다.
+
+- 모니터링 결과, Readiness Probe가 동작하여 Availability가 높아졌음을 알 수 있다.
+
+
+
+
+
 ## Self-healing (Liveness Probe)
 ## ConfigMap 적용
 ## 동기식 호출 / 서킷 브레이킹 / 장애격리
