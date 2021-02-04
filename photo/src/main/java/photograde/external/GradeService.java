@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.Date;
 
-@FeignClient(name="grade", url="${api.delivery.url}")
+@FeignClient(name="grade", url="${api.grade.url}")
 public interface GradeService {
 
     @RequestMapping(method= RequestMethod.GET, path="/grades")
