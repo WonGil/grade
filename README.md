@@ -312,7 +312,6 @@ public interface GradeService {
     }
 
 ```
-
 - 동기식 호출에서 호출 시간에 따른 타임 커플링이 발생하여, grade 서비스가 내려간 상태에선, photo에서 사진 삭제를 요청해도, 삭제되지 않음을 확인
   - 
 
