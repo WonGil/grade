@@ -289,8 +289,32 @@ public interface GradeService {
 }
 ```
 
-- 사진이 삭제된 직후(@PreRemove), 등급이 삭제되도록 처리
+- 사진이 삭제된 직후(@PreRemove), 등급이 삭제되도록 구현 (photo.java)
+```java
 
+    @PreRemove
+    public void onPreRemove(){
+        PhotoDeleted photoDeleted = new PhotoDeleted();
+        BeanUtils.copyProperties(this, photoDeleted);
+        photoDeleted.publishAfterCommit();
+
+        //Following code causes dependency to external APIs
+        // it is NOT A GOOD PRACTICE. instead, Event-Policy mapping is recommended.
+
+        photograde.external.Grade grade = new photograde.external.Grade();
+        // mappings goes here
+        grade.setGradeId(this.getId());
+        grade.setStatus("Photo Deleted");
+        PhotoApplication.applicationContext.getBean(photograde.external.GradeService.class)
+                .gradeCancel(grade);
+
+
+    }
+
+```
+
+- 동기식 호출에서 호출 시간에 따른 타임 커플링이 발생하여, grade 서비스가 내려간 상태에선, photo에서 사진 삭제를 요청해도, 삭제되지 않음을 확인
+  - 
 
 ## 비동기식 호출 (Pub/Sub 방식)
 ## CQRS
