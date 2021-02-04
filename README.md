@@ -389,10 +389,16 @@ public class PolicyHandler{
     ![image](https://user-images.githubusercontent.com/16534043/106845575-8d12c800-66ee-11eb-9d42-ee4053864877.png)
 
 ## CQRS
+- viewer를 별도로 구현하여 아래와 같이 view가 출력됨
+ - photo 서비스 실행 후 mypage 조회
+   ![image](https://user-images.githubusercontent.com/16534043/106846429-2ee6e480-66f0-11eb-9eb9-948f9339c2f9.png)
 
-
+ - photo 삭제를 하여도, mypage의 정보는 남아 있음을 확인
+   ![image](https://user-images.githubusercontent.com/16534043/106846545-6a81ae80-66f0-11eb-9d2f-bc5268b291f4.png)
 
 # 운영
+
+
 ## CI/CD 설정
 ## 오토스케일 아웃
 ## 무정지 재배포 (Readiness Probe)
