@@ -500,7 +500,15 @@ siege -c10 -t30S -v --content-type "application/json" 'http://photo:8080/photos 
 
 
 ## Self-healing (Liveness Probe)
+- photo 시스템 yml 파일의 Liveness probe가 정상적으로 체크하고 있는지 확인하기 위해, 사용하지 않는 port를 체크하도록 설정을 변경해 배포한다.
+- Liveness Probe의 설정에서 port를 8090으로 변경한다. (빠른 결과 체크를 위해 체크 주기도 30으로 변경)  
+  ![image](https://user-images.githubusercontent.com/16534043/106855108-c1db4b00-66ff-11eb-84a8-f3c108a2cb84.png)
 
+- 해당 설정으로 photo를 재배포하고, liveness가 설정되었음을 확인한다.  
+  ![image](https://user-images.githubusercontent.com/16534043/106855184-e20b0a00-66ff-11eb-940d-bd5b9e1bb76d.png)
+
+- Liveness Probe가 발동되어 재시작이 일어났음을 알 수 있다.  
+  
 ## ConfigMap 적용
 ## 동기식 호출 / 서킷 브레이킹 / 장애격리
 ## 모니터링, 앨럿팅
