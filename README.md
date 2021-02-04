@@ -390,10 +390,10 @@ public class PolicyHandler{
 
 ## CQRS
 - viewer를 별도로 구현하여 아래와 같이 view가 출력됨
- - photo 서비스 실행 후 mypage 조회
+ - photo 서비스 실행 후 mypage 조회  
    ![image](https://user-images.githubusercontent.com/16534043/106846429-2ee6e480-66f0-11eb-9eb9-948f9339c2f9.png)
 
- - photo 삭제를 하여도, mypage의 정보는 남아 있음을 확인
+ - photo 삭제를 하여도, mypage의 정보는 남아 있음을 확인  
    ![image](https://user-images.githubusercontent.com/16534043/106846545-6a81ae80-66f0-11eb-9d2f-bc5268b291f4.png)
 
 # 운영
